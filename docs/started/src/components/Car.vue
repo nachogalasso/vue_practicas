@@ -4,6 +4,7 @@
 	<p>Marca {{ brand }}</p>
 	<p>Model: {{ model }}</p>
 	<p>Potencia: {{ powered }}</p>
+	<p>Potencia: </p>
 	<!-- los botones para el evento @click -->
 	<button @click="upPower(10)">Aumentar</button>
 	<button @click="downPower(10)">Disminuir</button>
@@ -72,6 +73,7 @@
 	// Tenemos que importar 'ref' para poder interactuar con los variables con @click y binding
 	import { ref } from "vue";
 	export default {
+		
 		components: {
 			Test,
 		},
@@ -111,6 +113,7 @@
 				title: "Hola Mundo",
 				text: "Adios",
 			};
+
 			// ahora tenemos que inicializar la variable con la function de ref
 			// let powered = 50;
 			let powered = ref(50);
@@ -136,6 +139,7 @@
 				// powered.value = powered.value - 10
 				powered.value -= newPower;
 			};
+
 
 			return {
 				brand,
@@ -174,6 +178,8 @@
 	// pasar información a otro componente dentro de él. Recordad que las 'props' es el paso de información entre componentes.
 	// Lo podemos hacer mediante funciones. Por los 'props' podemos enviar variables simples, arrays, functions (que se 
 	// declaren en el componente padre y que se ejecuten en el componente hijo), objetos y muchas cosas más.
+	// Lo que vamos a hacer es trasladar datos desde App.vue a Car.vue a través de las props. En App.vue es dónde vamos a
+	// declarar la nueva variable
 </script>
 
 <style></style>
