@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   <link rel="stylesheet" href="style.css">
+
+   <!-- FONTAWESOME -->
+   <script src="https://kit.fontawesome.com/ef268928f6.js" crossorigin="anonymous"></script>
+   <!-- VUE CDN -->
+   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+   <title>LIFECYCLE HOOKS</title>
+</head>
+<body>
+   <section id="toggle">
+      <button @click="toggleBox">Toggle Box</button>
+      <test-box v-if="isVisible" />
+   </section>
+
+   <script>
+      let toggle = Vue.createApp({
+         data: function() {
+            return {
+               isVisible: false
+            }
+         },
+         methods: {
+            toggleBox: function() {
+               this.isVisible = !this.isVisible
+            }
+         },
+         // también podemos agregarlos acá y veremos que se actualizan cuando cambia el valor de data 
+         // estoy en 1hora 14 minutos App Demo
+      })
+      toggle.component('test-box', {
+         template: `
+            <div class="box"></div>
+         `,
+         // acá es donde colocamos los lifecycle hooks
+         created() {
+            console.log('created')
+         },
+         mounted() {
+            console.log('mounted')
+         },
+         unmounted() {
+            console.log('unmounted')
+         }
+      })
+
+      toggle.mount('#toggle')
+
+   </script>
+</body>
+</html>

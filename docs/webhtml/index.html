@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- CSS STYLE SHEET -->
+   <link rel="stylesheet" href="style.css">
+
+   <!-- FONTAWESOME -->
+   <script src="https://kit.fontawesome.com/ef268928f6.js" crossorigin="anonymous"></script>
+   <!-- VUE CDN -->
+   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+   <title>Web HTML - VUE</title>
+
+</head>
+<body>
+   <!-- Proyecto creado con el CDN de VUE -->
+   <section id="app" v-cloak>
+
+      <h1>Web con VUE JS</h1>
+   
+   
+      <p>{{title}}</p>
+      <p>Potencia: {{power}}</p>
+      <button @click="upPower()"><i class="fa-solid fa-plus"></i></button>
+      <button @click="downPower()"><i class="fa-solid fa-minus"></i></button>
+
+      <h2>Formulario simple con VUE</h2>
+      <login-form />
+   </section>
+   <!-- Veremos que como al estar por fuera de nuestro section, veremos que no se despliega nuestra variable -->
+   <p>{{title}}</p>
+
+   
+   <script src="./index.js" type="text/javascript"></script>
+   <script>
+      
+      // Recordar que las cosas las tenemos que poner por encima de app.mount()
+      // Creamos un formulario con componentes
+      app.component('login-form', {
+         // aquí es donde creamos nuestro template.
+         // Para poder hacer funcionar a nuestra function, tendremos que crear un method más abajo, para indicarque que 
+         // queremos que haga el handleSubmit. Al colocar el @submit.prevent evitamos que el formulario se envie. Ahora vamos
+         // a captar los valores de los inputs y lo hacemos mediante el v-model="le indicamos dónde guardar el valor", que luego
+         // almacenamos en data()
+          template: `  
+         <form @submit.prevent="handleSubmit">
+            <h3>{{title}}</h3>
+            <custom-input
+               v-for="(input, i) in inputs"
+               :key="i"
+               v-model="input.value"
+               :label="input.label"
+               :type="input.type"/>
+            <!-- <custom-input v-model="password" :label="passwordLabel"/> --> 
+            <button>Log in</button>
+         </form>
+         `,
+
+
+         // template suplantado por el del loop de los inputs
+         /* template: `  
+         <form @submit.prevent="handleSubmit">
+            <h3>{{title}}</h3>
+            <p v-for="(str, i) in inputs" :key="i">{{str}}</p>
+            <custom-input v-model="email" v-bind:label="emaiLabel"/>
+            <custom-input v-model="password" :label="passwordLabel"/>
+            <button>Log in</button>
+         </form>
+         `, */
+
+         // template original
+         //  template: `  
+         // <form @submit.prevent="handleSubmit">
+         //    <h3>{{title}}</h3>
+         //    <input type="email" v-model="email"/>
+         //    <input type="password" v-model="password"/>
+         //    <button>Log in</button>
+         // </form>
+         // `,
+
+         // <email-input v-bind:label="emaiLabel"/>
+         // Le podemos pasar el label sin utilizar el v-bind y eso lo hacemos colocando por delante solamente label="". Con esto
+         // nos ahorramos crear las variables en data. Por lo general utilizamos el v-bind
+         // <email-input :label="passwordLabel"/>
+
+         // Le indicicamos los componentes que vamos a utilizar. Recordar que tiene que ser un array
+         components: ['custom-input'],
+
+         // le añadimos datos, como están dentro del componente, solamente los podremos usar dentro del mismo
+         data() {
+            return {
+               title: 'Login Form',
+               // en el caso de los loops tendremos que crear un array en data, con el fin de poder recorrerlo con un bucle y
+               // acceder a la información almacenada en él. Para el ejemplo pasamos unos strings. Para desplegarlos usamos un
+               // loop, para poder verlos con claridad usamos un <p v-for="array"> le tenemos que indicar el array a pasar
+               // en este caso es un for in, por lo tanto le tendremos que pasar "str in inputs" {{str}}. Siempre que usemos un
+               // loop tenemos que agregarle una key="", la misma tiene que se única. Esto nos sirve para identificar a los
+               // elementos de forma única. Ayuda a la performance y a evitar bugs en nuestras aplicaciones. Podemos usar
+               // v-bind para darle una key única. <p v-for="str in inputs" :key="str">{{str}}</p> . Podemos también darle una
+               // key utilizando su index <p v-for="(str, i) in inputs" :key="i">{{str}}</p>
+               // Veremos que podemos crear un objeto con los inputs que queremos utilizar
+               /* inputs: [
+                  'email',
+                  'password',
+                  'name'
+               ], */
+               // el tema es que ahora tendré que pasar los valores como si fueran propiedades de objetos v-model="input.value"
+               // y el label :label="input.label"
+               inputs: [
+                  {
+                     label: 'Email',
+                     value: '',
+                     type: 'email'
+                  },
+                  {
+                     label: 'Password',
+                     value: '',
+                     type: 'password'
+                  }
+               ],
+               /* email: '',
+               password: '',
+               emaiLabel: 'Email',
+               passwordLabel: 'Password'  */
+            }
+         },
+         // Ahora ponemos los methods, para que nuestras functions. Recordar que también son objetos
+         methods: {
+            handleSubmit() {
+               // para obtener los valores tenemos que pasar el inputs[].value
+               // console.log(this.email, this.password)
+               console.log(this.inputs[0].value, this.inputs[1].value)
+            }
+         }
+      })
+
+      // Empezamos a crear los componentes. El INPUT de EMAIL
+      // lo que tengo que hacer es reemplazar en el template anterior el input por el componente nuevo. No te tengo que olvidar
+      // de indicarle al componente padre, del componente hijo que le estamos agregando. Eso lo hacemos creando el array de
+      // componentes. El nombre de label, estará en el padre y pasaremos la info al hijo. Para recibir el valor de esa variable
+      // utilizamos los props. Vamos a ver que en el padre no podemos utilizar la directiva v-model con el fin de guardar los
+      // datos, por lo tanto lo tenemos que crear en el componente y luego allí, aplicamos el v-model. Con ello logramos guardar
+      // los datos en una variable y quedarán sincronizados. Ahora tenemos que lograr que los datos queden disponibles para el
+      // componente padre, para ello vamos a utilizar un nuevo objeto que será computed: {}
+      app.component('custom-input', {
+         template: `
+            <label>{{label}}
+               <!-- <input type="text" v-model="inputValue"> -->
+               <input :type="type" v-model="inputValue">
+            </label>
+            `,
+            // para poder recibir el valor de una variable del componente padre, utilizamos los props, el cual definimos como
+            // un array. Vamos a traer una variable del padre que será 'modelValue'
+            // como el input estaba pasado como hijo al padre, el type="text" era el que hacia que el password salga sin
+            // puntitos. Ahora que estamos usando el loop y le agregamos el type, podemos indicarle que lo vamos a pasar
+            // para que los inputs tomen el que les corresponda.
+            props: ['label', 'type', 'modelValue'],
+            // computed es un objeto el cual podremos poner variables que funcionen como keys y cada vez que esas varibles se
+            // modifiquen podemos utilizar functions de GET y SET. Entonces cuando obtenga el valor de la variable correrá la
+            // function GET y luego de ello continuará con la SET
+            computed: {
+               inputValue : {
+                  // traeremos las variables del componente padre, que serán 'email' y 'password'
+                  get() {
+                     return this.modelValue
+                  },
+                  // acá es donde capturamos los valores, entre los () colocamos el parámetro, le podemos dar el nombre que
+                  // querramos, en este caso será value
+                  set(value) {
+                     // probamos el valor de salida. Pero luego tendremos que indicarle a que componente pertenece, para ello
+                     // podemos usar el this.$emit(), nos permite escuchar un evento y pasar datos a través de él. Pueden ser
+                     // producto o de un evento o pueden ser de un evento creado por nosotros. Para este caso usamos una de VUE
+                     // console.log(value)
+                     // el 1er argumento 'update:modelValue' es el tipo de evento que estamos pasando y el 2do argumento 'value'
+                     // es el valor que estamos pasando a través de ese evento, es que colocamos entre los () de set. Tenemos
+                     // que tener presente que v-model está escuchando a lo que suceda en nuestro input, con el fin de poder
+                     // obtener los valores. Por lo tanto cada que vez que se dispare el $emit(), v-model nos dará los valores
+                     // que correspondan al momento en que sucede el evento.
+                     this.$emit('update:modelValue', value)
+                  }
+               }
+            },
+            // El motivo por el cual tenemos que crear todo esto, es que el componente hijo no puede modificar valores
+            // del componente padre, pero si podemos intercambiar valores a través de las props. Recordar que esto nos
+            // permite modificar valores del padre. // estoy en 1 hora 06 del video, LIFECYCLE HOOKS.
+
+            // data() {
+            //    return {
+            //       inputValue: '',
+            //    }
+            // }
+            
+      // LIFECYCLE HOOKS
+      // También se lo conoce como components lifecycle hooks. Un hook son funciones que se ejecutan en un momento específico
+      // del ciclo del componente. La función es llamada en los momentos que le indiquemos
+
+      })
+
+     
+
+      // esto también lo podemos hacer en un archivo .js al que llamamos moutApp.js Con esto logramos que dentro de section se
+      // desarrolle nuestra app, si colocamos por fuera, veremos que los valores no nos van a funcionar
+      const mountApp = app.mount('#app')
+
+      // Otra forma de poder montar VUE con el CDN es realizar lo siguiente:
+      // let app = Vue.createApp({})
+      // app.mount()
+   </script>
+   <!-- 
+   - v-model: es parecido a un atributo de HTML, pero nos permite poder dar valores al pasarlos por el comando v-model="value". Si le cambiamos el texto al input, veremos que también se modifica el texto donde hayamos colocado la variable.
+   - v-if o v-else-if o v-else (es el único que no toma argumentos): funcionan como el condicional if, también se escriben con v-if="". Este comando nos sirve para renderizar elementos y que si no son necesarios no queden en el DOM, como el caso de un loader spinner.
+   - v-show es muy similar a v-if, también toma un valor booleano, pero la diferencia es que el elemento continua renderizado en el DOM y con el anterior no sucede. Se recomienda especialmente para un toogle. v-show="".
+   - v-cloak es un comando que nos permite que las cosas no se renderizen hasta que ya estén completamente cargadas. Lo podemos colocar en la etiqueta que contiene a nuestra app. No olvidar que tenemos que colocarle un estilo [v-cloak] {display: none;} que es el patrón recomendado. Una vez que se renderiza el contenido, el comando desaparece. 
+   -v-bind: con este comando parseamos un atributo de HTML para que VUE lo pase como una etiqueta y de esta manera podremos pasar el valor de una variable entre los componentes. El shorthand de v-bind es colocar los :ylaetiqueta -->
+   
+
+   <!-- METODOS Y EVENTOS
+   Hay muchos eventos que pueden ser capturados en el navegador y que podemos usar en nuestras aplicaciones:
+   - v-on: podemos utilizarlo para eventos personalizados, aquellos que nosotros querramos crear. Puede tener distintos tipos entre ellos :click, :keypress y demás. Luego tenemos que indicarle que hacer a VUE cuando ocurra ese evento v-on:click="". Para llamar los eventos podemos utilizar el @ => nos queda @click="", entre las comillas podemos pasar métodos, los cuales tenemos que escribir. 
+   -Para los métodos, tenemos que escribir methods: {}, crearemos un objeto el cual puede contener varias functions, para utilizar en nuestra aplicación.
+   -@keyup o @keydown son para eventos del teclado, tenemos que indicarle a cuál nos referimos @keyup.enter="", les estamos indicando que ponemos escucha a la tecla 'Enter', también aplica el poner el código numérico del teclado. Podemos pasarle un parámetro a través de nuestro evento @keyup.enter="greet(x)".
+   -Podemos añadir modificadores a nuestros eventos que se colocan luego de ponerlo con un .prevent o .right, esto indica que el evento se ejecuta una vez que se hace click con el botón derecho o previene de enviar un formulario. -->
+
+   <!-- COMPONENTES
+   Para componentes vamos a crear un simple formulario de login, en el cual el formulario con el título y el botón será el template principal, mientras que los inputs de email y password corresponderan a un componente cada uno. Podemos crearlo con la etiqueta <form> o podemos hacerlo como una etiqueta componente de VUE. Si lo hacemos como una etiqueta de VUE, tendremos que hacerlo después de nuestra app.mount -->
+</body>
+</html>
