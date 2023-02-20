@@ -1,15 +1,20 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+<div class="container">
+  <Navbar msg="inicio" />
+  <Message />
+</div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import Navbar from './components/Navbar.vue'
+import Message from './components/Wheekit.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Navbar,
+    Message
   }
 }
 </script>
@@ -23,4 +28,15 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+.container {
+  margin: 0 auto;
+  width: 40rem;
+  max-width: 100rem;
+  display: grid; 
+  grid-template-columns: 1fr 400px 1fr; 
+  grid-template-rows: repeat(3, 1fr); 
+  gap: 0px 0px; 
+}
+
 </style>
