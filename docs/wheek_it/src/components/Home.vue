@@ -1,5 +1,5 @@
 <template>
-   <header class="navbar">
+   <header class="home">
 
       <h2>{{msg}}</h2>
       <ul class="list">
@@ -11,7 +11,7 @@
 
 <script>
 export default {
-   name: "NavBar",
+   name: "Home",
    props: {
       msg: String,
    },
@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style scoped>
-.navbar {
+.home {
    margin: 0 auto;
    width: 100%;
    grid-column: 2 / 3;
