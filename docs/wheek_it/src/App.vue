@@ -2,6 +2,7 @@
 <div class="container">
   <Home msg="inicio" />
   <Message />
+  <NavBar />
 </div>
 </template>
 
@@ -9,12 +10,14 @@
 
 import Home from './components/Home.vue'
 import Message from './components/Wheekit.vue'
+import NavBar from './components/NavBar.vue'
 
 export default {
   name: 'App',
   components: {
     Home,
-    Message
+    Message,
+    NavBar
   }
 }
 </script>
@@ -32,9 +35,10 @@ export default {
   margin: 0 auto;
   width: 40rem;
   max-width: 100rem;
+  height: 100vh;
   display: grid; 
   grid-template-columns: 1fr 400px 1fr; 
-  grid-template-rows: repeat(3, 1fr); 
+  grid-template-rows: 8rem 15rem 1fr; 
   gap: 0px 0px; 
 }
 
