@@ -48,7 +48,7 @@ export default {
    justify-content: space-between;
    padding: .5rem 0;
    grid-column: 2 / 3;
-   grid-row: 2 / 4;
+   grid-row: 2 / 3;
 }
 
 .wheekit-container img {
