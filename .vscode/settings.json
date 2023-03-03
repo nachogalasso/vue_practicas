@@ -1,0 +1,7 @@
+{
+	"files.autoSave": "afterDelay",
+	"editor.fontFamily": "Ubuntu, Consolas, 'Courier New', monospace",
+	"editor.detectIndentation": false,
+	"editor.wordWrap": "on",
+	"editor.formatOnSave": true
+}
