@@ -58,7 +58,8 @@ export function calculate() {
         });
     }
 
-    console.log(total, tip, people, getPersonTotal)
+    // console.log(total, tip, people, getPersonTotal)
+    // console.log(store.people)
     // Luego vamos a tener que llamar a la function que calcule el restante por pagar
     calculateRemaining()
 }
